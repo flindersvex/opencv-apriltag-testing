@@ -29,10 +29,10 @@ try:
         depth_image = np.asanyarray(depth_frame.get_data())
         grey_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
-        # Normalize depth image to 0-255 for colormap
-        # Clip depth values (e.g., 0-5000mm) and scale to 8-bit
-        depth_colormap = cv2.normalize(depth_image, None, 0, 255, cv2.NORM_MINMAX)
-        depth_colormap = np.uint8(depth_colormap)
+        # Normalize depth image to 0-255 using a FIXED range
+        # Adjust the max value (5000) based on your camera's typical working distance
+        depth_clipped = np.clip(depth_image, 0, 5000)
+        depth_colormap = (depth_clipped / 5000 * 255).astype(np.uint8)
 
         # Apply a heatmap colormap
         depth_colormap = cv2.applyColorMap(depth_colormap, cv2.COLORMAP_JET)
