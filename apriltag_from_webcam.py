@@ -38,6 +38,7 @@ while rval:
         cv2.line(frame, p2, p3, (0,255,0), 3)
         cv2.line(frame, p3, p4, (0,255,0), 3)
         cv2.line(frame, p4, p1, (0,255,0), 3)
+        cv2.putText(frame, str(detection.tag_id), p2, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
 
     # Show the colour preview
     cv2.imshow("preview", frame)
