@@ -6,12 +6,23 @@ CONFIDENCE_THRESHOLD = 10
 cv2.namedWindow("preview")
 vc = cv2.VideoCapture(0)
 
+# UNCOMMENT THESE LINES TO INCREASE RESOLUTION
+# DESIRED_WIDTH = 1920
+# DESIRED_HEIGHT = 1080
+# vc.set(cv2.CAP_PROP_FRAME_WIDTH, DESIRED_WIDTH)
+# vc.set(cv2.CAP_PROP_FRAME_HEIGHT, DESIRED_HEIGHT)
+
 # Setup a detector - we use the circle21h7 family of tags, other than that default settings
 at_detector = Detector(families="tagCircle21h7")
 
 
 if vc.isOpened(): # try to get the first frame
     rval, frame = vc.read()
+
+    # UNCOMMENT THESE LINES TO INCREASE RESOLUTION
+    # actual_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
+    # actual_height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    # print(f"Requested resolution: {DESIRED_WIDTH}x{DESIRED_HEIGHT}, camera resolution: {actual_width}x{actual_height}")
 else:
     rval = False
 
