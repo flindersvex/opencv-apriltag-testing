@@ -11,9 +11,9 @@ config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 pipeline.start(config)
 
-at_detector = Detector(families="tagCircle21h7")
+at_detector = Detector(families="tagCircle21h7", nthreads=8)
 
-def draw_identifiers(frame, corners):
+def draw_identifiers(frame, corners, box_colour=(0, 255, 0), text_colour=(255, 0, 0), centre_colour=(0, 0, 255)):
     p1 = tuple(map(int, corners[3]))
     p2 = tuple(map(int, corners[2]))
     p3 = tuple(map(int, corners[1]))
@@ -22,12 +22,12 @@ def draw_identifiers(frame, corners):
     # Calculate the center of the tag using numpy
     centroid = np.mean(corners, axis=0).astype(int)
 
-    cv2.line(frame, p1, p2, (0,255,0), 3)
-    cv2.line(frame, p2, p3, (0,255,0), 3)
-    cv2.line(frame, p3, p4, (0,255,0), 3)
-    cv2.line(frame, p4, p1, (0,255,0), 3)
-    cv2.putText(frame, str(detection.tag_id), p2, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-    cv2.circle(frame, centroid, 2, (0, 0, 255), 3)
+    cv2.line(frame, p1, p2, box_colour, 3)
+    cv2.line(frame, p2, p3, box_colour, 3)
+    cv2.line(frame, p3, p4, box_colour, 3)
+    cv2.line(frame, p4, p1, box_colour, 3)
+    cv2.putText(frame, str(detection.tag_id), p2, cv2.FONT_HERSHEY_SIMPLEX, 1, text_colour, 2)
+    cv2.circle(frame, centroid, 2, centre_colour, 3)
 
 try:
     while True:
