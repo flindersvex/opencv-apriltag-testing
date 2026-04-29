@@ -59,17 +59,11 @@ try:
         # Remove all tags that are below a certain confidence value
         tags = [tag for tag in tags if tag.decision_margin > CONFIDENCE_THRESHOLD]
 
-        for detection in tags:
-            # print(detection)
-            # Convert the pixel values it an integer
-            p1 = tuple(map(int, detection.corners[3]))
-            p2 = tuple(map(int, detection.corners[2]))
-            p3 = tuple(map(int, detection.corners[1]))
-            p4 = tuple(map(int, detection.corners[0]))
-            
+        for detection in tags:            
             # Calculate the center of the tag using numpy
             centroid = np.mean(detection.corners, axis=0).astype(int)
             
+            # Find the distance of the center of the apriltag
             dist = depth_frame.get_distance(centroid[0], centroid[1])
             print(f"The tag with id {detection.tag_id} is {dist:.3f} meters away")
 
